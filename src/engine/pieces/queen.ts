@@ -12,29 +12,84 @@ export default class Queen extends Piece {
         let location = board.findPiece(this);
         // return the square in front of it
         let possibleMoves = [];
-        for (var i = 1; i < 8; i++){
-            if (location.row + i < 8 && location.col +i < 8){
-                possibleMoves.push(new Square (location.row + i, location.col + i));
-            }
-            if (location.row + i < 8 && location.col - i >= 0){
-                possibleMoves.push(new Square (location.row + i, location.col - i));
-            }
-            if (location.row - i >= 0 && location.col +i < 8){
-                possibleMoves.push(new Square (location.row - i, location.col + i));
-            }
-            if (location.row - i >= 0 && location.col - i >= 0){
-                possibleMoves.push(new Square (location.row - i, location.col - i));
-            }
 
+        var row = location.row;
+        var col = location.col;
+        function ifEmpty(x: number, y:number){
+            if (x < 0 || x > 7 || y < 0 || y > 7){
+                return false;
+            }
+            var thisSquare = new Square(x, y);
+            if (board.getPiece(thisSquare) == null){
+                return true;
+            }
+            return false;
         }
-        for (var i = 0; i < 8; i ++){
-            if (i != location.col){
-                possibleMoves.push(new Square(location.row, i));
+        // diagonal moves
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row + i, col + i)){
+                possibleMoves.push(new Square (row + i, col + i));
+            } else {
+                break;
             }
-            if (i != location.row) {
-                possibleMoves.push(new Square(i, location.col));
+        }
+
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row + i, col - i)){
+                possibleMoves.push(new Square (row + i, col - i));
+            } else {
+                break;
             }
-        };
+        }
+
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row - i, col + i)){
+                possibleMoves.push(new Square (row - i, col + i));
+            } else {
+                break;
+            }
+        }
+
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row - i, col - i)){
+                possibleMoves.push(new Square (row - i, col - i));
+            } else {
+                break;
+            }
+        }
+
+        //lateral moves
+        for (var i = 1; i < 8; i ++){
+            if (ifEmpty(row, col + i)){
+                possibleMoves.push(new Square(row, col + i));
+            } else {
+                break;
+            }
+        }
+
+        for (var i = 1; i < 8; i ++){
+            if (ifEmpty(row, col - i)){
+                possibleMoves.push(new Square(row, col - i));
+            } else {
+                break;
+            }
+        }
+
+        for (var i = 1; i < 8; i ++){
+            if (ifEmpty(row + i, col)){
+                possibleMoves.push(new Square(row + i, col));
+            } else {
+                break;
+            }
+        }
+
+        for (var i = 1; i < 8; i ++){
+            if (ifEmpty(row - i, col)){
+                possibleMoves.push(new Square(row - i, col));
+            } else {
+                break;
+            }
+        }
 
         return possibleMoves;
     }
