@@ -12,21 +12,56 @@ export default class Bishop extends Piece {
         let location = board.findPiece(this);
         // return the square in front of it
         let possibleMoves = [];
-        for (var i = 1; i < 8; i++){
-            if (location.row + i < 8 && location.col +i < 8){
-                possibleMoves.push(new Square (location.row + i, location.col + i));
+        var row = location.row;
+        var col = location.col;
+        function ifEmpty(x: number, y:number){
+            if (x < 0 || x > 7 || y < 0 || y > 7){
+                return false;
             }
-            if (location.row + i < 8 && location.col - i >= 0){
-                possibleMoves.push(new Square (location.row + i, location.col - i));
+            var thisSquare = new Square(x, y);
+            if (board.getPiece(thisSquare) == null){
+                return true;
             }
-            if (location.row - i >= 0 && location.col +i < 8){
-                possibleMoves.push(new Square (location.row - i, location.col + i));
-            }
-            if (location.row - i >= 0 && location.col - i >= 0){
-                possibleMoves.push(new Square (location.row - i, location.col - i));
-            }
-
+            return false;
         }
+
+
+
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row + i, col + i)){
+                possibleMoves.push(new Square (row + i, col + i));
+            } else {
+                break;
+            }
+        }
+
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row + i, col - i)){
+                possibleMoves.push(new Square (row + i, col - i));
+            } else {
+                break;
+            }
+        }
+
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row - i, col + i)){
+                possibleMoves.push(new Square (row - i, col + i));
+            } else {
+                break;
+            }
+        }
+
+        for (var i = 1; i < 8; i++){
+            if (ifEmpty(row - i, col - i)){
+                possibleMoves.push(new Square (row - i, col - i));
+            } else {
+                break;
+            }
+        }
+
+
+
+
         return possibleMoves;
     }
 }
