@@ -2,6 +2,7 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from "../square";
+import King from "./king";
 
 export default class Rook extends Piece {
     public constructor(player: Player) {
@@ -12,6 +13,7 @@ export default class Rook extends Piece {
         let location = board.findPiece(this);
         // return the square in front of it
         let possibleMoves = [];
+        let player = this.player;
         var row = location.row;
         var col = location.col;
         function ifEmpty(x: number, y:number){
@@ -25,11 +27,26 @@ export default class Rook extends Piece {
             return false;
         }
 
+        function ifEdible (x: number, y: number, me: number ){
+            var thisSquare = new Square(x, y);
+            var contents = board.getPiece(thisSquare);
+            if (contents instanceof King){
+                return false;
+            }
+            if (contents!= undefined && contents.player != me){
+                return true;
+            }
+            return false;
+        }
+
         //moving in all directions
         for (var i = 1; i < 8; i ++){
             if (ifEmpty(row, col + i)){
                 possibleMoves.push(new Square(row, col + i));
             } else {
+                if (ifEdible(row, col + i, player)){
+                    possibleMoves.push(new Square(row, col + i));
+                }
                 break;
             }
         }

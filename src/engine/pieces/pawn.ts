@@ -23,8 +23,10 @@ export default class Pawn extends Piece {
             if (board.getPiece(thisSquare) == null){
                 return true;
             }
-            return false;
         }
+
+
+
         if (this.player == Player.WHITE){
             if (ifEmpty(row + 1, col)){
                 possibleMoves.push( new Square(location.row + 1, location.col));
