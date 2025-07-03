@@ -13,15 +13,29 @@ export default class Pawn extends Piece {
         let location = board.findPiece(this);
         // return the square in front of it
         let possibleMoves = [];
-        if (this.player == Player.WHITE){
-            possibleMoves.push( new Square(location.row + 1, location.col));
-            if (location.row == 1){
-                possibleMoves.push( new Square(location.row + 2, location.col));
+        var row = location.row;
+        var col = location.col;
+        function ifEmpty(x: number, y:number){
+            var thisSquare = new Square(x, y);
+            if (board.getPiece(thisSquare) == null){
+                return true;
             }
+            return false;
+        }
+        if (this.player == Player.WHITE){
+            if (ifEmpty(row + 1, col)){
+                possibleMoves.push( new Square(location.row + 1, location.col));
+                if (location.row == 1 && ifEmpty(row + 2, col)){
+                    possibleMoves.push( new Square(location.row + 2, location.col));
+                }
+            }
+
         } else if (this.player == Player.BLACK) {
-            possibleMoves.push( new Square(location.row - 1, location.col));
-            if (location.row == 6){
-                possibleMoves.push( new Square(location.row - 2, location.col));
+            if (ifEmpty(row - 1, col)) {
+                possibleMoves.push(new Square(location.row - 1, location.col));
+                if (location.row == 6 && ifEmpty(row -2, col)) {
+                    possibleMoves.push(new Square(location.row - 2, location.col));
+                }
             }
         }
 
