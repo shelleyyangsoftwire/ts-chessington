@@ -12,6 +12,7 @@ export default class Bishop extends Piece {
         let location = board.findPiece(this);
         // return the square in front of it
         let possibleMoves = [];
+        let player = this.player;
         var row = location.row;
         var col = location.col;
         function ifEmpty(x: number, y:number){
@@ -31,6 +32,7 @@ export default class Bishop extends Piece {
             if (ifEmpty(row + i, col + i)){
                 possibleMoves.push(new Square (row + i, col + i));
             } else {
+
                 break;
             }
         }

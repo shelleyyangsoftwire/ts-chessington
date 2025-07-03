@@ -16,10 +16,16 @@ export default class Rook extends Piece {
         let player = this.player;
         var row = location.row;
         var col = location.col;
-        function ifEmpty(x: number, y:number){
+
+        function inBounds (x: number, y: number){
             if (x < 0 || x > 7 || y < 0 || y > 7){
                 return false;
+            } else {
+                return true;
             }
+        }
+        function ifEmpty(x: number, y:number){
+
             var thisSquare = new Square(x, y);
             if (board.getPiece(thisSquare) == null){
                 return true;
@@ -30,50 +36,65 @@ export default class Rook extends Piece {
         function ifEdible (x: number, y: number, me: number ){
             var thisSquare = new Square(x, y);
             var contents = board.getPiece(thisSquare);
-            if (contents instanceof King){
-                return false;
-            }
-            if (contents!= undefined && contents.player != me){
+            if (contents instanceof Piece && contents.player != me){
+                if (contents instanceof King){
+                    return false;
+                }
                 return true;
             }
             return false;
         }
 
         //moving in all directions
+
+        // right
         for (var i = 1; i < 8; i ++){
-            if (ifEmpty(row, col + i)){
-                possibleMoves.push(new Square(row, col + i));
-            } else {
-                if (ifEdible(row, col + i, player)){
+            if (inBounds(row, col + i)){
+                if (ifEmpty(row, col + i)){
                     possibleMoves.push(new Square(row, col + i));
+                } else {
+                    if (ifEdible(row, col + i, player)){
+                        possibleMoves.push(new Square(row, col + i));
+                    }
+                    break;
                 }
-                break;
             }
         }
 
+
+        // left
         for (var i = 1; i < 8; i ++){
-            if (ifEmpty(row, col - i)){
-                possibleMoves.push(new Square(row, col - i));
-            } else {
-                break;
+            if (inBounds(row, col - i)) {
+                if (ifEmpty(row, col - i)) {
+                    possibleMoves.push(new Square(row, col - i));
+                } else {
+                    break;
+                }
             }
         }
 
+        // up
         for (var i = 1; i < 8; i ++){
-            if (ifEmpty(row + i, col)){
-                possibleMoves.push(new Square(row + i, col));
-            } else {
-                break;
+            if (inBounds(row+ i, col)) {
+                if (ifEmpty(row + i, col)) {
+                    possibleMoves.push(new Square(row + i, col));
+                } else {
+                    break;
+                }
             }
         }
 
+        // down
         for (var i = 1; i < 8; i ++){
-            if (ifEmpty(row - i, col)){
-                possibleMoves.push(new Square(row - i, col));
-            } else {
-                break;
+            if (inBounds(row- i, col)) {
+                if (ifEmpty(row - i, col)) {
+                    possibleMoves.push(new Square(row - i, col));
+                } else {
+                    break;
+                }
             }
         }
+        console.log(possibleMoves);
         return possibleMoves;
     }
 }

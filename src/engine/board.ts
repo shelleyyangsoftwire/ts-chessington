@@ -17,6 +17,8 @@ export default class Board {
     }
 
     public getPiece(square: Square) {
+        console.log(this.board)
+        console.log(square)
         return this.board[square.row][square.col];
     }
 
