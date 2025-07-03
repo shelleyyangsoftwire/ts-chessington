@@ -16,6 +16,9 @@ export default class Pawn extends Piece {
         var row = location.row;
         var col = location.col;
         function ifEmpty(x: number, y:number){
+            if (x < 0 || x > 7 || y < 0 || y > 7){
+                return false;
+            }
             var thisSquare = new Square(x, y);
             if (board.getPiece(thisSquare) == null){
                 return true;
